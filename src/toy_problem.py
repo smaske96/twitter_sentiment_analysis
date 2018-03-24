@@ -4,6 +4,7 @@ T2: B C D -ve
 T3: A C D -ve
 T4: C C D +ve
 Minimize s0 + s1 + s2 + s3 
+subject to
 x0 + x1 + x2 + s0 > 0       => -1 * (x0 + x1 + x2 + s0) < 0
 x1 + x2 + x3 + s1 < 0
 x0 + x2 + x3 + s2 < 0
