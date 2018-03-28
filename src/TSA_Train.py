@@ -35,7 +35,7 @@ class TSA_Train:
             
     def accuracy(self):
         #Based on fraction of non-zero slacks
-        return np.count_nonzero(self.slacks)/len(self.slacks)
+        return np.count_nonzero(self.slacks==0)/len(self.slacks)
         
         
             
