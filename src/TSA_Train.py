@@ -18,8 +18,12 @@ class TSA_Train:
         y = self.results
         
         A = np.concatenate((X,S),axis=1)
-        A = np.matrix([-y[i]* A[i].A1 for i in range(N)])      #Convert all constraint to 'less than' bound
-        b = [-y[i] * self.threshold for i in range(N)]         #Right hand side of constraint
+        A = np.matrix([-y[i]* A[i].A1 for i in range(N)])  
+        print(A)
+        #Convert all constraint to 'less than' bound
+        b = [-self.threshold for i in range(N)]        
+        print(b)
+        #Right hand side of constraint
         
         F = np.concatenate((np.zeros(X.shape[1]), np.ones(N)))      #Objective function that contains S variables only
         bound = [(-1,1)] * X.shape[1] + [(0,None)] * len(S[0])      #Bound for each x_i is [-1,1] and s_i is [0, inf)
