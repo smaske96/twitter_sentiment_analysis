@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.optimize import linprog
 from TwitterCorpus import TwitterCorpus
+import json
 
 class TSA_Train:
     def __init__(self, corpus, **kwargs):
@@ -35,7 +36,7 @@ class TSA_Train:
     def saveOutput(self,**kwargs):
         fname = kwargs['filename'] if 'filename' in kwargs else 'output.json'
         with open(fname,'w') as fp:
-            fp.write(str(dict(zip(self.word_list, self.term_sentiment))))
+            json.dump(dict(zip(self.word_list, self.term_sentiment)), fp)
             
     def accuracy(self):
         #Based on fraction of non-zero slacks
