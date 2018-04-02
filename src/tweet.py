@@ -17,4 +17,4 @@ class Tweet:
         
         not_text = set(self.emoji).union(self.hashtags).union(self.mentions).union(self.url)
         not_text.add('RT')
-        self.text = [c for c in tokens if c not in not_text]
+        self.text = [c.lower() for c in tokens if c not in not_text]

@@ -4,6 +4,7 @@ from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 nltk.download('stopwords')
 
+
 class Preprocessor:
     """
     Constructor with settings:
@@ -11,7 +12,7 @@ class Preprocessor:
         stem<boolean>: whether we use stemming, defaults to False
         stopwords<boolean>: whether we remove stopwords, defaults to True
     """
-    def __init__(self, treshold=2.0, stem=False, removestopwords=True):
+    def __init__(self, treshold=0.02, stem=False, removestopwords=True):
         self.__treshold = treshold
         self.__stemmer = None if not stem else PorterStemmer
         self.__stopwords = None if not removestopwords else stopwords.words("english")
@@ -79,7 +80,7 @@ class Preprocessor:
                 if stemmed in self.__meta:
                     self.__meta[stemmed]['tweets'].add(tweetnum)
                 else:
-                    self.__meta[stemmed] = {"tweets": set(tweetnum)}
+                    self.__meta[stemmed] = {"tweets": set([tweetnum])}
                 ret.append(stemmed)
         return ret
 
