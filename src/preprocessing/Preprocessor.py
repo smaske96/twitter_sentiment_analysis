@@ -95,7 +95,7 @@ class Preprocessor:
     def __isFrequent(self, word, total):
         if word in self.__meta:
             if "isFrequent" not in self.__meta[word]:
-                isfrequent = len(self.__meta[word])/total >= self.__treshold
+                isfrequent = len(self.__meta[word]['tweets'])/total >= self.__treshold
                 self.__meta[word]["isFrequent"] = isfrequent
             return self.__meta[word]["isFrequent"]
         else:
