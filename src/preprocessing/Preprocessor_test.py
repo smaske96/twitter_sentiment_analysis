@@ -1,13 +1,16 @@
 from src.tweet import Tweet
 from src.preprocessing import Preprocessor
-tweettext1 = "Today is a beautiful day!"
-tweettext2 = "#NOCOLLUTION BY TRUMP IS THE FINDING, RULING, AND FACT! 😂😂😂😂😂"
-tweettext3 = "The Lamb says he's with Trump but Voted against #TaxCuts for all Americans and will stand with the Devious Democrats constructing the #TaxHike Plan as we speak."
+import pandas as pd
 
-tweets = [Tweet(tweettext1), Tweet(tweettext2), Tweet(tweettext3)]
-p = Preprocessor()
-for tweet in tweets:
-    print(tweet.text)
+df = pd.read_csv('dataset/sample_sts.txt')
+tweets = []
+for index, row in df.iterrows():
+    tweets.append(Tweet(row['tweet']))
+
+p = Preprocessor(treshold=2/len(tweets))
+
 p.process(tweets)
-for tweet in tweets:
-    print(tweet.text)
+
+with open('dataset/processed_sample_sts.txt','w') as fp:
+    for tweet in tweets:
+        fp.write(str(tweet.text)+'\n')
