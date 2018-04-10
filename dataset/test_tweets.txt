@@ -1,0 +1,13 @@
+sentiment,tweet
+-1,it's a cloudy day
+-1,what a lousy day
+-1,i hate when it rains
+-1,it's snowing. i hate it.
+-1,i'm tired
+-1,i hate this time of the year
+1,what a lovely day it is
+1,it's a warm and sunny day. i'm loving it
+1,had a great start of the day
+1,yay it's Christmas time!
+1,wish you all a very happy new year
+1,have a great weekend!
