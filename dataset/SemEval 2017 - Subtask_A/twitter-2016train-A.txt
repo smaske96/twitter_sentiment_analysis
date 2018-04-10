@@ -1,3 +1,4 @@
+id	sentiment	tweet
 628949369883000832	negative	dear @Microsoft the newOoffice for Mac is great and all, but no Lync update? C'mon.
 628976607420645377	negative	@Microsoft how about you make a system that doesn't eat my friggin discs. This is the 2nd time this has happened and I am so sick of it!
 629023169169518592	negative	I may be ignorant on this issue but... should we celebrate @Microsoft's parental leave changes? Doesn't the gender divide suggest... (1/2)

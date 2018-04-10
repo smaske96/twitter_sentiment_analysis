@@ -7,7 +7,7 @@ tweets = []
 for index, row in df.iterrows():
     tweets.append(Tweet(row['tweet']))
 
-p = Preprocessor(treshold=2/len(tweets))
+p = Preprocessor()
 
 p.process(tweets)
 
