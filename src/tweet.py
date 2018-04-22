@@ -18,3 +18,11 @@ class Tweet:
         not_text = set(self.emoji).union(self.hashtags).union(self.mentions).union(self.url)
         not_text.add('RT')
         self.text = [c.lower() for c in tokens if c not in not_text]
+        
+        # n - grams
+        self.n_grams = []
+        for d in range(2,4+1):
+            for i in range(0,len(self.text)-d+1, d):
+                self.n_grams.append(" ".join(self.text[i:i+d]))
+                    
+        

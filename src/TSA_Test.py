@@ -16,6 +16,7 @@ class TSA_Test:
             tokens = [ self.stemmer.stem(w) for w in tokens ]
         
         sentiment = 0
+        if len(tokens) == 0: return sentiment
         for t in tokens:
             sentiment += self.word_sentiment[t]
         return sentiment/len(tokens)
