@@ -30,6 +30,7 @@ class Preprocessor:
         self.__filterFrequent(tweets)
         if ngrams:
             self.__processNgrams(tweets)
+            self.__filterFrequentNgrams(tweets)
         return tweets
 
     # Private functions
@@ -38,20 +39,27 @@ class Preprocessor:
     """
     def __processNgrams(self, tweets):
         n_grams_new = []
+        tweetnum = 0
         for tweet in tweets:
             for ngram in tweet.n_grams:
                 for seq in ngram:
                     newseq = []
                     for item in seq:
                         if not self.__isStopgram(item):
-                            stemed = self.__stemAll(item)
-                            if len(stemed) > 0:
-                                newseq.append(stemed)
+                            stemmed = self.__stemAll(item)
+                            if len(stemmed) > 0:
+                                newseq.append(stemmed)
+                                joined = "".join(stemmed)
+                                if joined in self.__meta:
+                                    self.__meta[joined]['tweets'].add(tweetnum)
+                                else:
+                                    self.__meta[joined] = {"tweets": set([tweetnum])}
                     if len(newseq) > 0:
                         n_grams_new += newseq
                         break
             tweet.n_grams = n_grams_new
             n_grams_new = []
+            tweetnum += 1
 
     """
     Build meta object from a list of Tweet
@@ -90,6 +98,14 @@ class Preprocessor:
                 # randomly pick one word
                 if len(tweet.text) > 0:
                     tweet.text = [tweet.text[0]]
+
+    """
+    Filters frequent ngrams from tweets
+    """
+    def __filterFrequentNgrams(self, tweets):
+        total = float(len(tweets))
+        for tweet in tweets:
+            tweet.n_grams = [ngram for ngram in tweet.n_grams if self.__isFrequent("".join(ngram), total)]
 
     """
     Removes stopwords if necessary and stems if necessary
