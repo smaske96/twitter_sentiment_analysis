@@ -51,6 +51,7 @@ class Preprocessor:
                         n_grams_new += newseq
                         break
             tweet.n_grams = n_grams_new
+            n_grams_new = []
 
     """
     Build meta object from a list of Tweet
