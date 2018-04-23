@@ -3,14 +3,31 @@ from scipy.optimize import linprog
 from src.TwitterCorpus import TwitterCorpus
 import json
 
+"""
+Class to construct a training model
+
+Attributes:
+    threshold: term threshold
+    tweet_count: number of Tweets in the corpus
+    word_list: list of terms in the corpus
+    term_freq: list of term frequency in the corpus corresponding to the word_list
+    results: List of sentiments (+1, -1) of each tweet in the corpus
+"""
+
 class TSA_Train:
+    """
+    Loads the parameters of the corpus
+    """
     def __init__(self, corpus, **kwargs):
         self.threshold = kwargs['threshold'] if 'threshold' in kwargs else 1e-3
         self.tweet_count = corpus.getTweetCount()
         self.word_list = corpus.getWords()
         self.term_freq = corpus.getTF()
         self.results = corpus.getResult()
-        
+    
+    """
+    Dump the variables A, b, F in out/
+    """
     def __dump_vars(self,fnames,*args):
         for i in range(len(args)):
             if fnames[i] == 'A':
@@ -20,7 +37,9 @@ class TSA_Train:
             else:
                 np.savetxt('out/' + fnames[i] +'.txt', args[i],fmt='%5.8g')
     
-    
+    """
+    Creates the matrices required for Linear Progamming in MATLAB
+    """
     def optimize(self):
         N = self.tweet_count
         #X = self.term_freq
@@ -46,6 +65,9 @@ class TSA_Train:
         
         solver = input("Use MATLAB solver. Success? (y/n) : ")
         #output = linprog(F, A_ub=A, b_ub=b, bounds = bound,   options=dict(disp=True, maxiter=float("inf")))
+        """
+        MATLAB will write the solution of the linear programming to out/x.txt
+        """
         if solver == 'y':
             with open('out/x.txt','r') as fp:
                 x = list(map(float,fp.readlines()))
@@ -54,12 +76,17 @@ class TSA_Train:
             return True
         else:
             return False
-        
+    """
+    Saves the sentiment of each term cacluated by linear programming as a JSON file
+    """
     def saveOutput(self,**kwargs):
         fname = kwargs['filename'] if 'filename' in kwargs else 'out\output.json'
         with open(fname,'w') as fp:
             json.dump(dict(zip(self.word_list, self.term_sentiment)), fp)
-            
+    
+    """
+    Calculates fraction of zero slacks
+    """
     def accuracy(self):
         #Based on fraction of non-zero slacks
         return np.count_nonzero(self.slacks==0)/len(self.slacks)
