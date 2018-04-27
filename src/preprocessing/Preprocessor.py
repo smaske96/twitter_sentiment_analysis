@@ -115,11 +115,11 @@ class Preprocessor:
         ret = []
         for word in words:
             if not self.__isStopword(word):
-                stemmed = self.__stem(word)
+                stemmed = (self.__stem(word),word) # To preserve actual word before stemming, required for Sentiwordnet
                 if stemmed in self.__meta:
-                    self.__meta[stemmed]['tweets'].add(tweetnum)
+                    self.__meta[stemmed[0]]['tweets'].add(tweetnum)
                 else:
-                    self.__meta[stemmed] = {"tweets": set([tweetnum])}
+                    self.__meta[stemmed[0]] = {"tweets": set([tweetnum])}
                 ret.append(stemmed)
         return ret
 

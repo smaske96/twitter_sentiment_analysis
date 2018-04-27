@@ -31,17 +31,31 @@ class TwitterCorpus:
             tweets[i].n_grams = [" ".join(x) for x in tweets[i].n_grams]
         
         self.__word_list = set()
+        actual_word = dict()
         for tw in tweets:
-            self.__word_list = self.__word_list.union(tw.text + tw.n_grams) #
+            self.__word_list = self.__word_list.union(list(map(lambda a: a[0], tw.text)) + tw.n_grams) 
+            for w in tw.text:
+                actual_word[w[0]] = w[1]
+                
         print('tweet-size = ', len(tweets))
         print('word-size = ',len(self.__word_list))
+        
+        
         self.__word_list = list(self.__word_list)
+        print('Sample words: ', self.__word_list[:5])
+        
         term_count = defaultdict(lambda: defaultdict(lambda: 0))
         for i,tw in enumerate(tweets):
-            for w in tw.text + tw.n_grams: #:
+            for w in list(map(lambda a: a[0], tw.text)) + tw.n_grams: #:
                 term_count[i][w] += 1
         
         self.__tweet_count = len(tweets)
+        
+        self.actual_words = []
+        for w in self.__word_list:
+            if w in actual_word: 
+                self.actual_words.append(actual_word[w])
+            
         
         tf = []
         for i in range(self.__tweet_count):

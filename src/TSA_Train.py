@@ -2,6 +2,7 @@ import numpy as np
 from scipy.optimize import linprog
 from src.TwitterCorpus import TwitterCorpus
 import json
+from nltk.corpus import sentiwordnet as swn
 
 """
 Class to construct a training model
@@ -24,6 +25,7 @@ class TSA_Train:
         self.word_list = corpus.getWords()
         self.term_freq = corpus.getTF()
         self.results = corpus.getResult()
+        self.actual_word = corpus.actual_words
     
     """
     Dump the variables A, b, F in out/
@@ -45,8 +47,27 @@ class TSA_Train:
         #X = self.term_freq
         #S = -1*np.eye(N)
         y = self.results
-        #print(self.word_list)
-        #print(X)
+        
+        
+        """
+        Get sentiwordnet scores
+        """
+        swn_param = []
+        for w in self.actual_word:
+            if len(w.split()) > 1: 
+                swn_param.append(0)
+                continue
+            swn_list = list(swn.senti_synsets(w))
+            if len(swn_list) == 0 or (swn_list[0].pos_score() > 0 and swn_list[0].neg_score() > 0):
+                swn_param.append(0)
+                continue
+                
+            if swn_list[0].pos_score() > 0: 
+                swn_param.append(1)
+            elif swn_list[0].neg_score() > 0:
+                swn_param.append(-1)
+            else:
+                swn_param.append(0)
         
         A = [[-y[i]* x for x in self.term_freq[i]] for i in range(N)]  
         W = len(A[0])
@@ -61,7 +82,7 @@ class TSA_Train:
         F = np.concatenate((np.zeros(W), np.ones(N)))      #Objective function that contains S variables only
         #bound = [(None,None)] * X.shape[1] + [(0,None)] * len(S[0])      #Bound for each x_i is [-1,1] and s_i is [0, inf)
         
-        self.__dump_vars(['F','A','b'],F,A,b)
+        self.__dump_vars(['F','A','b','s'],F,A,b,swn_param)
         
         solver = input("Use MATLAB solver. Success? (y/n) : ")
         #output = linprog(F, A_ub=A, b_ub=b, bounds = bound,   options=dict(disp=True, maxiter=float("inf")))
