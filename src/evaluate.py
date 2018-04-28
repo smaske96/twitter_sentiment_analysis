@@ -8,8 +8,8 @@ df = pd.read_csv('dataset/SemEval 2017 - Subtask_A/twitter-2016test-A.txt',sep='
 #df = df[df['sentiment'] != 'neutral']
     
 test = TSA_Test('out\output.json', stemmer=PorterStemmer()) 
-t1 = -3.167e-5
-t2 = 2.390e-5   
+t1 = 0.0001392
+t2 = 0.0001967  
 cnf_matrix = np.zeros((3,3))
 for index, row in df.iterrows():
     s = test.getSentiment(row['tweet'])
