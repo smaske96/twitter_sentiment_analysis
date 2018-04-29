@@ -2,7 +2,7 @@ import emoji
 import re
 from nltk.tokenize import TweetTokenizer
 from nltk import ngrams
-
+import string
 
 class Tweet:
     def __init__(self, tweet_str):
@@ -18,7 +18,7 @@ class Tweet:
         
         not_text = set(self.emoji).union(self.hashtags).union(self.mentions).union(self.url)
         not_text.add('RT')
-        self.text = [c.lower() for c in tokens if c not in not_text]
+        self.text = [c.lower() for c in tokens if c not in not_text and c not in string.punctuation]
 
         self.n_grams = []
         self.n_grams.append(self.__createNGram(2))
