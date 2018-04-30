@@ -11,7 +11,7 @@ neg = df[df['sentiment']==0].head(10000)[['sentiment','tweet']]
 #neu = df[df['sentiment']==2].head(10000)[['sentiment','tweet']]
 pos = df[df['sentiment']==4].head(10000)[['sentiment','tweet']]
 
-test = TSA_Test('out\output.json', stemmer=PorterStemmer())  
+test = TSA_Test('out\output.json', stemmer=PorterStemmer(), ngrams=True)  
 df = pd.concat([neg, pos])
 
 sentiment = defaultdict(lambda: [])

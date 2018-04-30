@@ -69,22 +69,20 @@ class TSA_Train:
             else:
                 swn_param.append(0)
         
+        #Convert all constraint to 'less than' bound
         A = [[-y[i]* x for x in self.term_freq[i]] for i in range(N)]  
         W = len(A[0])
-        #A = np.concatenate((A,S),axis=1)
         
-        #print(A)
-        #Convert all constraint to 'less than' bound
-        b = [-self.threshold for i in range(N)]        
-        #print(b)
         #Right hand side of constraint
+        b = [-self.threshold for i in range(N)]        
+        
+        
         
         F = np.concatenate((np.zeros(W), np.ones(N)))      #Objective function that contains S variables only
-        #bound = [(None,None)] * X.shape[1] + [(0,None)] * len(S[0])      #Bound for each x_i is [-1,1] and s_i is [0, inf)
         
         self.__dump_vars(['F','A','b','s'],F,A,b,swn_param)
         
-        solver = input("Use MATLAB solver. Success? (y/n) : ")
+        solver = input("Execute out/solveLinProg.m; Success? (y/n) : ")
         #output = linprog(F, A_ub=A, b_ub=b, bounds = bound,   options=dict(disp=True, maxiter=float("inf")))
         """
         MATLAB will write the solution of the linear programming to out/x.txt

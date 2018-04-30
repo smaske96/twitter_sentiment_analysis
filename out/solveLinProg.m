@@ -1,4 +1,4 @@
-function [x] = solveLinProg()
+function solveLinProg()
     th = 0.00001;
     A = importdata('A.txt');
     b = importdata('b.txt');

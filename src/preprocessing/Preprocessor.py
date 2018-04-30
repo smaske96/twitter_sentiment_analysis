@@ -2,7 +2,11 @@
 import nltk
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
+import random
+
+random.seed(42)
 nltk.download('stopwords')
+nltk.download('sentiwordnet')
 
 
 class Preprocessor:
@@ -97,7 +101,7 @@ class Preprocessor:
             else:
                 # randomly pick one word
                 if len(tweet.text) > 0:
-                    tweet.text = [tweet.text[0]]
+                    tweet.text = random.sample(tweet.text,1)
 
     """
     Filters frequent ngrams from tweets

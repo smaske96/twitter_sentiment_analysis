@@ -18,7 +18,7 @@ class Tweet:
         
         not_text = set(self.emoji).union(self.hashtags).union(self.mentions).union(self.url)
         not_text.add('RT')
-        self.text = [c.lower() for c in tokens if c not in not_text and c not in string.punctuation]
+        self.text = [c.lower() for c in tokens if c not in not_text]
 
         self.n_grams = []
         self.n_grams.append(self.__createNGram(2))
@@ -34,10 +34,12 @@ class Tweet:
     ]
     """
     def __createNGram(self, n):
+        temp_text = [c for c in self.text if c not in string.punctuation]
+    
         ret = []
         for i in range(n):
             ret.append([])
-        ngs = list(ngrams(self.text, n))
+        ngs = list(ngrams(temp_text, n))
         idx = 0
         for ng in ngs:
             ret[idx%n].append(ng)
