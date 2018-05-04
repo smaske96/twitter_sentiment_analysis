@@ -40,9 +40,12 @@ F_n = 2 * pie_n * sig_n / (pie_n + sig_n)
 F_pn = 0.5 * (F_p + F_n)
 sig_pn = 0.5 * (sig_p + sig_n)
 
+acc = (cnf_matrix[0][0] + cnf_matrix[1][1] + cnf_matrix[2][2])/sum(sum_r)
+
 
 print('F1-score F1_pn = ', round(F_pn,3)) 
 print('Macroaveraged recall (sigma_PN) = ', round(sig_pn,3))
+print('Acc = ', round(acc,3))
 
 
 print('\nEvaluating model using SemEval Subtask B...')
